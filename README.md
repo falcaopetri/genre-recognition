@@ -7,7 +7,7 @@ Two models are provided for training and validation:
 
 * The first model is a modification on the LSTM model developed by Piotr Kozakowski, Jakub Królak, Łukasz Margas and Bartosz Michalak. The model relies on the weighted average of the probability distribution of genres at each time step. 
 
-* The second model was implemented by Nikhil George Titus based on http://benanne.github.io/2014/08/05/spotify-cnns.html This model achieved a validation accuracy of 83% in the current data split of the GTZAN data set. 
+* The second model was implemented by Nikhil George Titus based on http://benanne.github.io/2014/08/05/spotify-cnns.html This model achieved a validation accuracy of 83% on the current data split of the GTZAN data set. 
 
 
 
