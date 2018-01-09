@@ -31,7 +31,7 @@ python create_data_pickle.py
  python train_model.py
 ```
 
-By default the model 2 is chosen. The model can be chosen using an optional model_choice parameter. eg: 
+By default the model 2 is chosen. The model can be changed using an optional model_choice parameter. eg: 
 
 ```shell
 python train_model.py -c 1
