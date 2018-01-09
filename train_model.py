@@ -17,6 +17,7 @@ import cPickle
 from optparse import OptionParser
 from sys import stderr, argv
 import os
+import tensorflow as tf
 
 SEED = 42
 N_LAYERS = 3
@@ -25,6 +26,16 @@ CONV_FILTER_COUNT = 256
 LSTM_COUNT = 256
 BATCH_SIZE = 32
 EPOCH_COUNT = 100
+
+def weightedCustom(x):
+    weights=np.arange(77)
+    weights=weights[:,np.newaxis]
+    weightsKeras=K.variable(value=weights)
+    values_tensor=x
+    out=values_tensor*weights
+    out=K.sum(out,axis=1)
+    out=tf.divide(out,3003)#1+2+3+.....+77
+    return out
 
 def train_model(data):
     x = data['x']
@@ -54,9 +65,9 @@ def train_model(data):
     layer = TimeDistributed(Dense(len(GENRES)))(layer)
     layer = Activation('softmax', name='output_realtime')(layer)
     time_distributed_merge_layer = Lambda(
-            function=lambda x: K.mean(x, axis=1), 
+            function=lambda x: weightedCustom(x), 
             output_shape=lambda shape: (shape[0],) + shape[2:],
-            name='output_merged'
+            name='output_merged_weighted'
         )
     model_output = time_distributed_merge_layer(layer)
     model = Model(model_input, model_output)
@@ -117,7 +128,7 @@ if __name__ == '__main__':
             help='path to the output model weights hdf5 file',
             metavar='WEIGHTS_PATH')
     parser.add_option('-c', '--model_choice', dest='model_choice',
-            default=1,
+            default=2,
             help='Model choice: 1 for LSTM and 2 for fully connected model based on http://benanne.github.io/2014/08/05/spotify-cnns.html',
             metavar='MODEL_CHOICE')
     options, args = parser.parse_args()
@@ -125,7 +136,8 @@ if __name__ == '__main__':
     with open(options.data_path, 'r') as f:
         data = cPickle.load(f)
 
-    if options.model_choice == 1:
+    if options.model_choice == '1':
+        print 'Model 1 chosen'
         model = train_model(data)
     else:
         print 'Model 2 being used'

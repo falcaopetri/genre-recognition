@@ -1,15 +1,14 @@
-CRNN for Live Music Genre Recognition
+Synopsis
 =====================================
 
-Convolutional-Recurrent Neural Networks for Live Music Genre Recognition is a project aimed at creating a neural network recognizing music genre and providing a user-friendly visualization for the network's current belief of the genre of a song. The project was created for the 24-hour Braincode Hackathon in Warsaw by Piotr Kozakowski, Jakub Królak, Łukasz Margas and Bartosz Michalak.
+This repo is a fork of: https://github.com/deepsound-project/genre-recognition
 
-This project uses Keras for the neural network and Tornado for serving requests.
+Two models are provided for training and validation:
 
+* The first model is a modification on the LSTM model developed by Piotr Kozakowski, Jakub Królak, Łukasz Margas and Bartosz Michalak. The model used the weighted average of probability distribution of genres at each time step. 
 
-Demo
-----
+* The second model was implemented by Nikhil George Titus based on http://benanne.github.io/2014/08/05/spotify-cnns.html This model acheived an accuracy of 83% in the current data split of GTZAN data set. 
 
-You can see a demo for a few selected songs here: [Demo](http://deepsound.io/genres/).
 
 
 Usage
@@ -21,17 +20,7 @@ In a fresh virtualenv type:
 pip install -r requirements.txt
 ```
 
-to install all the prerequisites. Run: 
-
-```shell
-THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python server.py  
-```
-
-to run the server at http://0.0.0.0:8080/  
-
-Then you can upload a song using the big (and only) button and see the results for yourself. All mp3 files should work fine.  
-
-Running server.py without additional parameters launches the server using a default model provided in the package. You can provide your own model, as long as it matches the input and output architecture of the provided model. You can train your own model by modifying and running train\_model.py. If you wish to train a model by yourself, download the [GTZAN dataset](http://opihi.cs.uvic.ca/sound/genres.tar.gz) (or provide analogous) to the data/ directory, extract it, run create\_data\_pickle.py to preprocess the data and then run train\_model.py to train the model:
+You can train your own model by modifying and running train\_model.py. If you wish to train a model by yourself, download the [GTZAN dataset](http://opihi.cs.uvic.ca/sound/genres.tar.gz) (or provide analogous) to the data/ directory, extract it, run create\_data\_pickle.py to preprocess the data and then run train\_model.py to train the model:
 
 ```shell
 cd data
@@ -39,23 +28,20 @@ wget http://opihi.cs.uvic.ca/sound/genres.tar.gz
 tar zxvf genres.tar.gz
 cd ..
 python create_data_pickle.py
-THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python train_model.py
+ python train_model.py
 ```
 
-You can "visualize" the filters learned by the convolutional layers using extract\_filters.py. This script for each convolutional neuron extracts and concatenates a few chunks resulting in maximum activation of this neuron from the tracks from the dataset. By default, it will put the visualizations in the filters/ directory. It requires the GTZAN dataset and its pickled version in the data/ directory. Run the commands above to obtain them. You can control the number of extracted chunks using the --count0 argument. Extracting higher number of chunks will be slower.
-
-Optional model
------
-**Please note: This model is incompatible with the visualizations as this outputs a single probability distribution. Please use this only for training and validaiton purposes.**
-
-An optional model can be trained based on: http://benanne.github.io/2014/08/05/spotify-cnns.html. This model reached an accuracy of 83% on the validation data. The model can be selected by setting the model_choice parameter of train_model.py to 2. 
+By default the model 2 is chosen. The model can be chosen using an optional model_choice parameter. eg: 
 
 ```shell
-python train_model.py -c 2 
+python train_model.py -c 1
 
 ```
 
-Background
+
+Acknowledgments
 ----------
 
-The rationale for this particular model is based on several works, primarily [Grzegorz Gwardys and Daniel Grzywczak, Deep Image Features in Music Information Retrieval](http://ijet.pl/index.php/ijet/article/view/10.2478-eletel-2014-0042/53) and [Recommending music on Spotify with Deep Learning](http://benanne.github.io/2014/08/05/spotify-cnns.html). The whole idea is extensively described in our blog post [Convolutional-Recurrent Neural Network for Live Music Genre Recognition](http://deepsound.io/music_genre_recognition.html).  
+* This repo is a fork of: https://github.com/deepsound-project/genre-recognition. Many thanks to Piotr Kozakowski & Bartosz Michalak. 
+* Models were trained and tested as part of the neural networks project of COMPSCI 682 at UMASS Amherst. https://compsci682.github.io/. Please read the project report here: 
+* The second model was trained based on http://benanne.github.io/2014/08/05/spotify-cnns.html
