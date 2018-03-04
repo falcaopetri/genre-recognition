@@ -45,3 +45,9 @@ Acknowledgments
 * This repo is a fork of: https://github.com/deepsound-project/genre-recognition. Many thanks to Piotr Kozakowski & Bartosz Michalak. 
 * Models were trained and tested as part of the neural networks project of COMPSCI 682 at UMASS Amherst. https://compsci682.github.io/. Please read the project report here: [REPORT](https://github.com/nikhiltitus/genre-recognition/blob/master/report/finalreport.pdf)
 * The second model was trained based on http://benanne.github.io/2014/08/05/spotify-cnns.html
+
+
+Contact info
+---------
+
+* Feel free to contact me at nikhiltitusk@gmail.com if you need any further info. 
