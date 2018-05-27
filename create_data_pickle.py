@@ -1,8 +1,8 @@
-from common import load_track, GENRES
+from .common import load_track, GENRES
 import sys
 import numpy as np
 from math import pi
-from cPickle import dump
+from pickle import dump
 import os
 from optparse import OptionParser
 
@@ -30,10 +30,10 @@ def collect_data(dataset_path):
     track_paths = {}
 
     for (genre_index, genre_name) in enumerate(GENRES):
-        for i in xrange(TRACK_COUNT // len(GENRES)):
+        for i in range(TRACK_COUNT // len(GENRES)):
             file_name = '{}/{}.000{}.au'.format(genre_name,
                     genre_name, str(i).zfill(2))
-            print 'Processing', file_name
+            print('Processing', file_name)
             path = os.path.join(dataset_path, file_name)
             track_index = genre_index  * (TRACK_COUNT // len(GENRES)) + i
             x[track_index], _ = load_track(path, default_shape)

@@ -3,7 +3,7 @@ GPU command:
 THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python train_model.py
 '''
 
-from common import GENRES
+from .common import GENRES
 from keras.callbacks import Callback
 from keras.utils import np_utils
 from keras.models import Model
@@ -13,7 +13,7 @@ from keras.layers import Input, Dense, Lambda, Dropout, Activation, LSTM, \
         TimeDistributed, Convolution1D, MaxPooling1D,Conv1D,AveragePooling1D, Flatten,GlobalAveragePooling1D,GlobalMaxPooling1D,concatenate
 from sklearn.model_selection import train_test_split
 import numpy as np
-import cPickle
+import pickle
 from optparse import OptionParser
 from sys import stderr, argv
 import os
@@ -43,7 +43,7 @@ def train_model(data):
     (x_train, x_val, y_train, y_val) = train_test_split(x, y, test_size=0.3,
             random_state=SEED)
 
-    print 'Building model...'
+    print('Building model...')
 
     n_features = x_train.shape[2]
     input_shape = (None, n_features)
@@ -78,7 +78,7 @@ def train_model(data):
             metrics=['accuracy']
         )
 
-    print 'Training...'
+    print('Training...')
     model.fit(x_train, y_train, batch_size=BATCH_SIZE, nb_epoch=EPOCH_COUNT,
               validation_data=(x_val, y_val), verbose=1)
 
@@ -90,10 +90,10 @@ def train_model_spotify(data):
     y = data['y']
     (x_train, x_val, y_train, y_val) = train_test_split(x, y,stratify=y, test_size=0.2,random_state=SEED)
 
-    print 'Building model...'
+    print('Building model...')
 
     input_shape = (x_train.shape[1], x_train.shape[2])
-    print input_shape
+    print(input_shape)
     model_input = Input(shape=input_shape)
     layer = model_input
     for i in range(3):
@@ -134,13 +134,13 @@ if __name__ == '__main__':
     options, args = parser.parse_args()
 
     with open(options.data_path, 'r') as f:
-        data = cPickle.load(f)
+        data = pickle.load(f)
 
     if options.model_choice == '1':
-        print 'Model 1 chosen'
+        print('Model 1 chosen')
         model = train_model(data)
     else:
-        print 'Model 2 being used'
+        print('Model 2 being used')
         model=train_model_spotify(data)
 
     with open(options.model_path, 'w') as f:
